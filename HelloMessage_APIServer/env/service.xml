@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+	<serviceDirectory class="team.hellobro.gw.api.service.Sender" path="/hellomessage"/>
+</services>
