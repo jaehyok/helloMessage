@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import team.balam.exof.module.service.annotation.Service;
 import team.balam.exof.module.service.annotation.ServiceDirectory;
 import team.hellobro.gw.api.transform.Request;
+import team.hellobro.gw.api.transform.Response;
 
 @ServiceDirectory
 public class Sender 
@@ -17,7 +18,17 @@ public class Sender
 	{
 		if(this.logger.isDebugEnabled())
 		{
-			this.logger.debug("[SMS]Receive content : {}", _request.toString());
+			this.logger.debug("[SMS]Request : {}", _request.toString());
 		}
+		
+		Response response = new Response();
+		response.setResultCode("success");
+		
+		if(this.logger.isInfoEnabled())
+		{
+			this.logger.debug("[SMS]Request : {}", response.toString());
+		}
+		
+		
 	}
 }

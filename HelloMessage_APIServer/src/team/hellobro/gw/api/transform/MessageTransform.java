@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import team.balam.exof.module.listener.RequestContext;
 import team.balam.exof.module.listener.handler.transform.HttpTransform;
 import team.balam.exof.module.service.ServiceObject;
+import team.hellobro.gw.api.RequestContextKey;
 
 public class MessageTransform extends HttpTransform
 {
@@ -62,6 +63,8 @@ public class MessageTransform extends HttpTransform
 				
 				Request request = unmarshal(new ByteArrayInputStream(buf));
 				serviceObject.setRequest(request);
+				
+				RequestContext.set(RequestContextKey.HTTP_REQUEST, _msg);
 			}
 			else
 			{
