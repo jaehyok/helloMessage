@@ -27,9 +27,17 @@ public class Request
 	{
 		StringBuilder str = new StringBuilder();
 		
+		boolean isFirst = true;
 		for(Message m : this.message)
 		{
-			str.append(m.toString()).append("\n");
+			if(isFirst)
+			{
+				str.append(m.toString());
+			}
+			else
+			{
+				str.append("\n").append(m.toString());
+			}
 		}
 		
 		return str.toString();
