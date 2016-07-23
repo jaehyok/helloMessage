@@ -16,9 +16,9 @@ public class Sender
 	@Service(name="sms")
 	public void sendSms(Request _request) throws Exception
 	{
-		if(this.logger.isDebugEnabled())
+		if(this.logger.isInfoEnabled())
 		{
-			this.logger.debug("[SMS]Request : {}", _request.toString());
+			this.logger.info("[SMS]Request : {}", _request.toString());
 		}
 		
 		Response response = new Response();
@@ -26,9 +26,9 @@ public class Sender
 		
 		if(this.logger.isInfoEnabled())
 		{
-			this.logger.debug("[SMS]Request : {}", response.toString());
+			this.logger.info("[SMS]Response : {}", response.toString());
 		}
 		
-		
+		response.send();
 	}
 }
