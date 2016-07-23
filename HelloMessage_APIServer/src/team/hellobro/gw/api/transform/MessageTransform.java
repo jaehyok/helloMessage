@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import team.balam.exof.module.listener.RequestContext;
+import team.balam.exof.module.listener.handler.transform.BadFormatException;
 import team.balam.exof.module.listener.handler.transform.HttpTransform;
 import team.balam.exof.module.service.ServiceObject;
 import team.hellobro.gw.api.RequestContextKey;
@@ -30,12 +31,12 @@ public class MessageTransform extends HttpTransform
 	{
 		try 
 		{
-			JAXBContext jctx = JAXBContext.newInstance(Request.class);
+			JAXBContext unMaCtx = JAXBContext.newInstance(Request.class);
+			unmarshaller = unMaCtx.createUnmarshaller();
 			
-			marshaller = jctx.createMarshaller();
+			JAXBContext maCtx = JAXBContext.newInstance(Response.class);
+			marshaller = maCtx.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-			
-			unmarshaller = jctx.createUnmarshaller();
 		}
 		catch(JAXBException e) 
 		{
@@ -49,6 +50,7 @@ public class MessageTransform extends HttpTransform
 		try
 		{
 			ServiceObject serviceObject = super.transform(_msg);
+			serviceObject.setCloseSessionByError(true);
 			
 			ByteBuf content = _msg.content();
 			if(content.isReadable())
@@ -56,9 +58,9 @@ public class MessageTransform extends HttpTransform
 				byte[] buf = new byte[content.capacity()];
 				content.getBytes(0, buf);
 				
-				if(logger.isInfoEnabled())
+				if(logger.isDebugEnabled())
 				{
-					logger.info("Request xml : {}", new String(buf));
+					logger.debug("Request xml : {}", new String(buf));
 				}
 				
 				Request request = unmarshal(new ByteArrayInputStream(buf));
@@ -80,9 +82,7 @@ public class MessageTransform extends HttpTransform
 		}
 		catch(Exception e)
 		{
-			RequestContext.getSession().close();
-			
-			throw e;
+			throw new BadFormatException(e);
 		}
 	}
 	
