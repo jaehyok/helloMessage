@@ -72,7 +72,7 @@ public class MessageTransform extends HttpTransform
 			{
 				if(content.hasArray())
 				{
-					logger.error("Request xml : {}", new String(content.array()));
+					logger.error("Request info.\n{}\n{}", _msg.toString(), new String(content.array()));
 				}
 				
 				throw new Exception("Can not read request. " + content.toString());
