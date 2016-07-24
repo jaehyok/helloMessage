@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <listener>
-	<port number="2000" ssl="no" maxLength="8192" 
-			certificatePath="D:/mywork/HelloMessage_APIServer/cert/keyutil_example.com.crt" 
-			privateKeyPath="D:/mywork/HelloMessage_APIServer/cert/keyutil_example.com.key">
+	<port number="2000" ssl="yes" maxLength="8192" 
+			certificatePath="/Users/kwonsm/git/helloMessage/HelloMessage_APIServer/cert/keyutil_example.com.crt" 
+			privateKeyPath="/Users/kwonsm/git/helloMessage/HelloMessage_APIServer/cert/keyutil_example.com.key">
 		<channelHandler class="team.balam.exof.module.listener.handler.codec.HttpServerCodec"/>
 		<messageTransform class="team.hellobro.gw.api.transform.MessageTransform"/>
 	</port>
