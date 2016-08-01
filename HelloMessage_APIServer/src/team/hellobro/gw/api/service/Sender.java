@@ -8,7 +8,6 @@ import team.balam.exof.module.service.annotation.ServiceDirectory;
 import team.balam.exof.module.service.annotation.Startup;
 import team.hellobro.gw.api.transform.Request;
 import team.hellobro.gw.api.transform.Response;
-import team.hellobro.gw.api.transform.ResultSetter;
 
 @ServiceDirectory
 public class Sender 
@@ -50,17 +49,19 @@ public class Sender
 			this.logger.info("[SMS]Request : {}", _request.toString());
 		}
 		
-		Response response = new Response();
+		Response response = null;
 		
 		try
 		{
 			this.messagePoolConnection.sendSms(_request);
+			
+			response = Response.SUCCESS();
 		}
 		catch(Exception e)
 		{
 			this.logger.error("Can not insert redis message pool.", e);
 			
-			ResultSetter.FAIL(response);
+			response = Response.INTERNAL_SERVER_ERROR();
 		}
 		
 		if(this.logger.isInfoEnabled())

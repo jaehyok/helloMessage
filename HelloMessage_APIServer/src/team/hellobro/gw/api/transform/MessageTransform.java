@@ -63,8 +63,17 @@ public class MessageTransform extends HttpTransform
 					logger.debug("Request xml : {}", new String(buf));
 				}
 				
-				Request request = unmarshal(new ByteArrayInputStream(buf));
-				serviceObject.setServiceParameter(new Object[]{request});
+				try
+				{
+					Request request = unmarshal(new ByteArrayInputStream(buf));
+					serviceObject.setServiceParameter(new Object[]{request});
+				}
+				catch(JAXBException je)
+				{
+					Response.BAD_REQUEST().send();
+					
+					throw je;
+				}
 				
 				//FullHttpResponse를 보낼 때 사용하기 위해서 저장.
 				//keepAlive등의 설정을 사용하기 우해서
@@ -76,6 +85,8 @@ public class MessageTransform extends HttpTransform
 				{
 					logger.error("Request info.\n{}\n{}", _msg.toString(), new String(content.array()));
 				}
+				
+				Response.NO_CONTENT().send();
 				
 				throw new Exception("Can not read request. " + content.toString());
 			}
