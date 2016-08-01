@@ -64,7 +64,7 @@ public class MessageTransform extends HttpTransform
 				}
 				
 				Request request = unmarshal(new ByteArrayInputStream(buf));
-				serviceObject.setRequest(request);
+				serviceObject.setServiceParameter(new Object[]{request});
 				
 				RequestContext.set(RequestContextKey.HTTP_REQUEST, _msg);
 			}
