@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <services>
-	<serviceDirectory class="team.hellobro.gw.api.service.Sender" path="/hellomessage"/>
+	<serviceDirectory class="team.hellobro.gw.api.service.Sender" path="/hellomessage">
+		<serviceVariable serviceName="sms">
+			<variable name="test" value="yes"/>
+			<variable name="redisHost" value="127.0.0.1"/>
+			<variable name="redisPort" value="3333"/>
+			<variable name="idleConnection" value="1"/>
+			<variable name="maxConnection" value="2"/>
+		</serviceVariable>
+	</serviceDirectory>
 </services>
