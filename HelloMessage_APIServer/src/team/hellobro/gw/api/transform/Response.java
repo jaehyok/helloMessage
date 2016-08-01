@@ -30,23 +30,22 @@ public class Response
 	private static Logger logger = LoggerFactory.getLogger(Response.class);
 	
 	private HttpResponseStatus status;
+	
+	private String resultMessage;
 	private String resultCode;
 	
 	public Response()
 	{
-		this.success();
+		ResultSetter.SUCCESS(this);
 	}
 	
-	public void success()
+	public void setResult(String _message, String _code, HttpResponseStatus _status)
 	{
-		this.status = HttpResponseStatus.OK;
+		this.resultMessage = _message;
+		this.resultCode = _code;
+		this.status = _status;
 	}
 	
-	public void fail()
-	{
-		this.status = HttpResponseStatus.BAD_REQUEST;
-	}
-
 	public String getResultCode() 
 	{
 		return resultCode;
@@ -58,11 +57,23 @@ public class Response
 		this.resultCode = resultCode;
 	}
 	
+	public String getResultMessage() 
+	{
+		return resultMessage;
+	}
+
+	@XmlElement
+	public void setResultMessage(String resultMessage) 
+	{
+		this.resultMessage = resultMessage;
+	}
+
 	@Override
 	public String toString() 
 	{
 		StringBuilder str = new StringBuilder();
 		str.append("result code:").append(this.resultCode);
+		str.append(", result message:").append(this.resultMessage);
 		
 		return str.toString();
 	}

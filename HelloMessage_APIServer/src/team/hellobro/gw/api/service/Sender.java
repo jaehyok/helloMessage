@@ -8,6 +8,7 @@ import team.balam.exof.module.service.annotation.ServiceDirectory;
 import team.balam.exof.module.service.annotation.Startup;
 import team.hellobro.gw.api.transform.Request;
 import team.hellobro.gw.api.transform.Response;
+import team.hellobro.gw.api.transform.ResultSetter;
 
 @ServiceDirectory
 public class Sender 
@@ -50,7 +51,6 @@ public class Sender
 		}
 		
 		Response response = new Response();
-		response.setResultCode("success");
 		
 		try
 		{
@@ -60,8 +60,7 @@ public class Sender
 		{
 			this.logger.error("Can not insert redis message pool.", e);
 			
-			response.fail();
-			response.setResultCode("fail");
+			ResultSetter.FAIL(response);
 		}
 		
 		if(this.logger.isInfoEnabled())
