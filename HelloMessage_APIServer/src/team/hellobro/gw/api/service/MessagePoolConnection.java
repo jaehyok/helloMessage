@@ -24,17 +24,28 @@ public class MessagePoolConnection
 		
 		if(this.logger.isInfoEnabled())
 		{
-			this.logger.info("Redis connection pool is created.");
+			this.logger.info("Redis connection pool is created. host:{}, port:{}, idle:{}, max:{}", _host, _port, _idle, _max);
 		}
 	}
 	
 	public void sendSms(Request _request) throws Exception
 	{
+		if(this.logger.isInfoEnabled())
+		{
+			this.logger.info("Insert request to redis : {}", _request);	
+		}
+		
 		Jedis jedis = null;
 		
 		try
 		{
 			jedis = this.connectionPool.getResource();
+		}
+		catch(Exception e)
+		{
+			this.logger.error("Can not insert request to redis message pool.", _request, e);
+			
+			throw e;
 		}
 		finally
 		{

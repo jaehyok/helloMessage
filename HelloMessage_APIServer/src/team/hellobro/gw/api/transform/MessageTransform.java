@@ -66,6 +66,8 @@ public class MessageTransform extends HttpTransform
 				Request request = unmarshal(new ByteArrayInputStream(buf));
 				serviceObject.setServiceParameter(new Object[]{request});
 				
+				//FullHttpResponse를 보낼 때 사용하기 위해서 저장.
+				//keepAlive등의 설정을 사용하기 우해서
 				RequestContext.set(RequestContextKey.HTTP_REQUEST, _msg);
 			}
 			else
