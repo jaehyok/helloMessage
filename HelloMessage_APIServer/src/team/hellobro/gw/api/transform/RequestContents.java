@@ -2,7 +2,7 @@ package team.hellobro.gw.api.transform;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public class Message 
+public class RequestContents 
 {
 	private String messageId = "00001";
 	private String to = "kwonsm";

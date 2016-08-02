@@ -2,6 +2,7 @@ package team.hellobro.gw.api.transform;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.HttpResponseStatus;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
@@ -34,7 +35,7 @@ public class MessageTransform extends HttpTransform
 			JAXBContext unMaCtx = JAXBContext.newInstance(Request.class);
 			unmarshaller = unMaCtx.createUnmarshaller();
 			
-			JAXBContext maCtx = JAXBContext.newInstance(ResponseImpl.class);
+			JAXBContext maCtx = JAXBContext.newInstance(Response.class);
 			marshaller = maCtx.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		}
@@ -50,7 +51,7 @@ public class MessageTransform extends HttpTransform
 		try
 		{
 			ServiceObject serviceObject = super.transform(_msg);
-			serviceObject.setCloseSessionByError(true);
+			serviceObject.setAutoCloseSession(true);
 			
 			ByteBuf content = _msg.content();
 			if(content.isReadable())
@@ -70,7 +71,14 @@ public class MessageTransform extends HttpTransform
 				}
 				catch(JAXBException je)
 				{
-					Response.BAD_REQUEST().send();
+					HttpResponseStatus status = HttpResponseStatus.BAD_REQUEST;
+					
+					Response response = new Response();
+					response.setStatus(status);
+					response.setResultCode(String.valueOf(status.code()));
+					response.setResultMessage(status.reasonPhrase());
+					
+					response.send();
 					
 					throw je;
 				}
@@ -86,7 +94,14 @@ public class MessageTransform extends HttpTransform
 					logger.error("Request info.\n{}\n{}", _msg.toString(), new String(content.array()));
 				}
 				
-				Response.NO_CONTENT().send();
+				HttpResponseStatus status = HttpResponseStatus.NO_CONTENT;
+				
+				Response response = new Response();
+				response.setStatus(status);
+				response.setResultCode(String.valueOf(status.code()));
+				response.setResultMessage(status.reasonPhrase());
+				
+				response.send();
 				
 				throw new Exception("Can not read request. " + content.toString());
 			}

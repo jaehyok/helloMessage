@@ -9,15 +9,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Request 
 {
-	private List<Message> message = new ArrayList<>(1);
+	private List<RequestContents> message = new ArrayList<>(1);
 	
 	@XmlElement
-	public void setMessage(List<Message> messages) 
+	public void setMessage(List<RequestContents> messages) 
 	{
 		this.message = messages;
 	}
 	
-	public List<Message> getMessage() 
+	public List<RequestContents> getMessage() 
 	{
 		return message;
 	}
@@ -28,7 +28,7 @@ public class Request
 		StringBuilder str = new StringBuilder();
 		
 		boolean isFirst = true;
-		for(Message m : this.message)
+		for(RequestContents m : this.message)
 		{
 			if(isFirst)
 			{
