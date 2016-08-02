@@ -39,6 +39,14 @@ public class SendTest
 			+ "			<messagePrice>0.04000000</messagePrice>"
 			+ "			<network>45002</network>"
 			+ "		</message>"
+			+ "		<message>"
+			+ "			<to>821029652189</to>"
+			+ "			<messageId>0500000040E10D9C</messageId>"
+			+ "			<status>0</status>"
+			+ "			<remainingBalance>251.34424000</remainingBalance>"
+			+ "			<messagePrice>0.04000000</messagePrice>"
+			+ "			<network>45002</network>"
+			+ "		</message>"
 			+ "</request>";
 	@Test
 	public void sendHttp()

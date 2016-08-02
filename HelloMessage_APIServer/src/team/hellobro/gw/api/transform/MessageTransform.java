@@ -34,7 +34,7 @@ public class MessageTransform extends HttpTransform
 			JAXBContext unMaCtx = JAXBContext.newInstance(Request.class);
 			unmarshaller = unMaCtx.createUnmarshaller();
 			
-			JAXBContext maCtx = JAXBContext.newInstance(Response.class);
+			JAXBContext maCtx = JAXBContext.newInstance(ResponseImpl.class);
 			marshaller = maCtx.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		}

@@ -3,7 +3,7 @@ package team.hellobro.gw.api.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import team.hellobro.gw.api.transform.Request;
+import team.hellobro.gw.api.transform.Message;
 
 public class TestMessagePoolConnection extends MessagePoolConnection
 {
@@ -19,11 +19,11 @@ public class TestMessagePoolConnection extends MessagePoolConnection
 	}
 	
 	@Override
-	public void sendSms(Request _request) throws Exception
+	public void sendSms(Message _message) throws Exception
 	{
 		if(this.logger.isInfoEnabled())
 		{
-			this.logger.info("Insert request to redis : {}", _request);	
+			this.logger.info("Insert message to redis : {}", _message);	
 		}
 	}
 }

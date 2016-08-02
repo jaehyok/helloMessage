@@ -1,11 +1,14 @@
 package team.hellobro.gw.api.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import team.balam.exof.module.service.annotation.Service;
 import team.balam.exof.module.service.annotation.ServiceDirectory;
 import team.balam.exof.module.service.annotation.Startup;
+import team.hellobro.gw.api.transform.Message;
 import team.hellobro.gw.api.transform.Request;
 import team.hellobro.gw.api.transform.Response;
 
@@ -44,16 +47,15 @@ public class Sender
 	@Service(name="sms")
 	public void sendSms(Request _request) throws Exception
 	{
-		if(this.logger.isInfoEnabled())
-		{
-			this.logger.info("[SMS]Request : {}", _request.toString());
-		}
-		
 		Response response = null;
 		
 		try
 		{
-			this.messagePoolConnection.sendSms(_request);
+			List<Message> messageList = _request.getMessage();
+			for(Message message : messageList)
+			{
+				this.messagePoolConnection.sendSms(message);
+			}
 			
 			response = Response.SUCCESS();
 		}

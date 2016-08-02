@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-import team.hellobro.gw.api.transform.Request;
+import team.hellobro.gw.api.transform.Message;
 
 public class MessagePoolConnection
 {
@@ -28,11 +28,11 @@ public class MessagePoolConnection
 		}
 	}
 	
-	public void sendSms(Request _request) throws Exception
+	public void sendSms(Message _message) throws Exception
 	{
 		if(this.logger.isInfoEnabled())
 		{
-			this.logger.info("Insert request to redis : {}", _request);	
+			this.logger.info("Insert message to redis : {}", _message);	
 		}
 		
 		Jedis jedis = null;
@@ -43,7 +43,7 @@ public class MessagePoolConnection
 		}
 		catch(Exception e)
 		{
-			this.logger.error("Can not insert request to redis message pool.", _request, e);
+			this.logger.error("Can not insert message to redis message pool.", _message, e);
 			
 			throw e;
 		}
