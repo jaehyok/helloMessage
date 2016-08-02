@@ -4,12 +4,12 @@ import javax.xml.bind.annotation.XmlElement;
 
 public class RequestContents 
 {
-	private String messageId = "00001";
-	private String to = "kwonsm";
-	private String status = "0";
-	private String remainingBalance = "0101";
-	private String messagePrice = "0.002";
-	private String network = "br1";
+	private String messageId;
+	private String to;
+	private String status;
+	private String remainingBalance;
+	private String messagePrice;
+	private String network;
 	
 	public String getMessageId() 
 	{
