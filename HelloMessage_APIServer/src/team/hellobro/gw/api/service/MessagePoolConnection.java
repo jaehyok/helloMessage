@@ -1,12 +1,12 @@
 package team.hellobro.gw.api.service;
 
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-import team.hellobro.gw.api.transform.Message;
+import team.hellobro.gw.api.transform.RequestContents;
 
 public class MessagePoolConnection
 {
@@ -16,7 +16,7 @@ public class MessagePoolConnection
 	
 	public void init(String _host, int _port, int _idle, int _max)
 	{
-		JedisPoolConfig config = new JedisPoolConfig();
+		GenericObjectPoolConfig config = new GenericObjectPoolConfig();
 		config.setMinIdle(_idle);
 		config.setMaxTotal(_max);
 		
@@ -28,7 +28,7 @@ public class MessagePoolConnection
 		}
 	}
 	
-	public void sendSms(Message _message) throws Exception
+	public void sendSms(RequestContents _message) throws Exception
 	{
 		if(this.logger.isInfoEnabled())
 		{
@@ -40,10 +40,12 @@ public class MessagePoolConnection
 		try
 		{
 			jedis = this.connectionPool.getResource();
+			
+			jedis.push(_message.getMessageId(), _message.getMessagePrice(), _message.getNetwork());
 		}
 		catch(Exception e)
 		{
-			this.logger.error("Can not insert message to redis message pool.", _message, e);
+			this.logger.error("Can not insert message to redis message pool.", e);
 			
 			throw e;
 		}

@@ -3,7 +3,7 @@ package team.hellobro.gw.api.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import team.hellobro.gw.api.transform.Message;
+import team.hellobro.gw.api.transform.RequestContents;
 
 public class TestMessagePoolConnection extends MessagePoolConnection
 {
@@ -19,7 +19,7 @@ public class TestMessagePoolConnection extends MessagePoolConnection
 	}
 	
 	@Override
-	public void sendSms(Message _message) throws Exception
+	public void sendSms(RequestContents _message) throws Exception
 	{
 		if(this.logger.isInfoEnabled())
 		{
