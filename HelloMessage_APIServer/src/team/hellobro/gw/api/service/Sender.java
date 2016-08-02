@@ -1,5 +1,8 @@
 package team.hellobro.gw.api.service;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
+
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,9 +11,10 @@ import org.slf4j.LoggerFactory;
 import team.balam.exof.module.service.annotation.Service;
 import team.balam.exof.module.service.annotation.ServiceDirectory;
 import team.balam.exof.module.service.annotation.Startup;
-import team.hellobro.gw.api.transform.Message;
 import team.hellobro.gw.api.transform.Request;
+import team.hellobro.gw.api.transform.RequestContents;
 import team.hellobro.gw.api.transform.Response;
+import team.hellobro.gw.api.transform.ResponseContents;
 
 @ServiceDirectory
 public class Sender 
@@ -47,23 +51,34 @@ public class Sender
 	@Service(name="sms")
 	public void sendSms(Request _request) throws Exception
 	{
-		Response response = null;
+		List<ResponseContents> resultList = new LinkedList<>();
+		Response response = new Response();
+		response.setStatus(HttpResponseStatus.OK);
+		response.setResult(resultList);
 		
-		try
+		List<RequestContents> messageList = _request.getMessage();
+		for(RequestContents message : messageList)
 		{
-			List<Message> messageList = _request.getMessage();
-			for(Message message : messageList)
+			String resultCode = "100";
+			
+			try
 			{
 				this.messagePoolConnection.sendSms(message);
 			}
-			
-			response = Response.SUCCESS();
-		}
-		catch(Exception e)
-		{
-			this.logger.error("Can not insert redis message pool.", e);
-			
-			response = Response.INTERNAL_SERVER_ERROR();
+			catch(Exception e)
+			{
+				resultCode = "900";
+				
+				this.logger.error("Can not insert redis message pool.", e);
+			}
+			finally
+			{
+				ResponseContents responseContents = new ResponseContents();
+				responseContents.setMessageId(message.getMessageId());
+				responseContents.setGatewayId("gateway id");
+				responseContents.setResultCode(resultCode);
+				resultList.add(responseContents);
+			}
 		}
 		
 		if(this.logger.isInfoEnabled())
