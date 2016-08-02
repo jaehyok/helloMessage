@@ -33,6 +33,8 @@ public class Request
 			if(isFirst)
 			{
 				str.append(m.toString());
+				
+				isFirst = false;
 			}
 			else
 			{
